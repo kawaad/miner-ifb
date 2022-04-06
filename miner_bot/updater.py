@@ -3,23 +3,43 @@ from messenger import Messenger
 from scraper import Scraper
 
 from utils.campuses import campuses_info
-from utils.updates import Updates
 
 
 class Updater:
+    """
+        Initializes the miner to parse all campuses and
+        send the news on their respective channels
+    """
 
-    file_path = 'utils/last_news_updates.json'
+    file_path_updates = 'utils/last_news_updates.json'
 
     def first_step(self):
-
+        """ Gets the campuses information to retrieve the links for each one  """
         for campus_key, campus_value in campuses_info.items():
             campus_links = campus_value['links']
+            self.parse_campus_links(campus_links=campus_links,
+                                    campus_key=campus_key)
 
-            for link_key, link_value in campus_links.items():
-                news_list = Scraper().start_requests(url=link_value)
-                for news_key, news_values in news_list.items():
-                    messenger = Messenger(news_key, news_values, campus_key, link_key, self.file_path)
-                    messenger.update()
+    def parse_campus_links(self, campus_links, campus_key):
+        """ Gets the campus links and send them to the scraper to parse the data """
+        for link_key, link_value in campus_links.items():
+            news_list = Scraper().start_requests(url=link_value)
+            self.parse_news_list(news_list=news_list,
+                                 campus_key=campus_key,
+                                 link_key=link_key)
+
+    def parse_news_list(self, news_list, campus_key, link_key):
+        """ Gets the campus news data and call the message updater  """
+        for news_key, news_values in news_list.items():
+            self.message_update(news_key=news_key,
+                                news_values=news_values,
+                                campus_key=campus_key,
+                                link_key=link_key)
+
+    def message_update(self, news_key, news_values, campus_key, link_key):
+        """ Update the news and forward it to your respective channel """
+        messenger = Messenger(news_key, news_values, campus_key, link_key, self.file_path_updates)
+        messenger.update()
 
 
 if __name__ == "__main__":
