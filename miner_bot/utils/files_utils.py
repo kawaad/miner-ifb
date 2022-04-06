@@ -23,8 +23,10 @@ class FilesUtils:
         with open(self.file_path, 'wb') as f:
             f.write(response.content)
             f.close()
-        self.convert_jpg_to_png()
+        self.resize_image()
+        return self.file_path
 
-    def convert_jpg_to_png(self):
-        im = Image.open(self.file_path)
-        im.save('utils/temp.png')
+    def resize_image(self):
+        image = Image.open(self.file_path)
+        image.thumbnail((500, 500))
+        image.save(self.file_path)
