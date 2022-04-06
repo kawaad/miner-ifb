@@ -15,17 +15,18 @@ class Scraper:
         return self.get_news_list(response_soup)
 
     def get_news_list(self, response):
-        news_list = {}
+        news_list = []
         for news_item in response.find_all('div', class_='tileItem'):
             title, url = self.parse_title_and_url(item=news_item)
             image = self.parse_image(item=news_item)
             date_time = self.parse_datetime(item=news_item)
             description = self.parse_description(item=news_item)
-
-            news_list.update({title: {'datetime': date_time,
-                                      'description': description,
-                                      'image': image,
-                                      'url': url}})
+            news_list.append({'title': title,
+                              'datetime': date_time,
+                              'description': description,
+                              'image': image,
+                              'url': url})
+        news_list = sorted(news_list, key=lambda dict_: dict_['datetime'])
         return news_list
 
     @staticmethod

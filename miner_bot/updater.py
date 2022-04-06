@@ -30,15 +30,14 @@ class Updater:
 
     def parse_news_list(self, news_list, campus_key, link_key):
         """ Gets the campus news data and call the message updater  """
-        for news_key, news_values in news_list.items():
-            self.message_update(news_key=news_key,
-                                news_values=news_values,
+        for news in news_list:
+            self.message_update(news=news,
                                 campus_key=campus_key,
                                 link_key=link_key)
 
-    def message_update(self, news_key, news_values, campus_key, link_key):
+    def message_update(self, news, campus_key, link_key):
         """ Update the news and forward it to your respective channel """
-        messenger = Messenger(news_key, news_values, campus_key, link_key, self.file_path_updates)
+        messenger = Messenger(news, campus_key, link_key, self.file_path_updates)
         messenger.update()
 
 
