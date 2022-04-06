@@ -46,7 +46,7 @@ class Scraper:
         datetime_content = item.find('div', class_='span2 tileInfo').get_text()
         datetime_match = re.search(r'(\d+/\d+/\d+\n\s\d+h\d+)', datetime_content)
         datetime_group = datetime_match.group() if datetime_match else ''
-        datetime_object = datetime.strptime(datetime_group, '%d/%m/%y  %Hh%M')
+        datetime_object = datetime.strptime(datetime_group, '%d/%m/%y  %Hh%M').isoformat(' ', 'minutes')
         return datetime_object
 
     def parse_description(self, item):
