@@ -20,7 +20,7 @@ class Messenger:
 
     bot = telebot.TeleBot(token['auth_token'])
 
-    def update(self):
+    def updates(self):
         last_news_updates = FilesUtils(file_path=self.file_path).read()
         update_date = last_news_updates[self.campus_key][self.link_key]
         if self.news['datetime'] > update_date:
