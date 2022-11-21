@@ -11,7 +11,7 @@ class Updater:
         send the news on their respective channels
     """
 
-    file_path_updates = 'utils/last_news_updates.json'
+    file_path_updates = 'last_news_updates.json'
 
     def first_step(self):
         """ Gets the campuses information to retrieve the links for each one  """
@@ -37,8 +37,11 @@ class Updater:
 
     def message_update(self, news, campus_key, link_key):
         """ Update the news and forward it to your respective channel """
-        messenger = Messenger(news, campus_key, link_key, self.file_path_updates)
-        messenger.update()
+        messenger = Messenger(news=news,
+                              campus_key=campus_key,
+                              link_key=link_key,
+                              file_path=self.file_path_updates)
+        messenger.updates()
 
 
 if __name__ == "__main__":

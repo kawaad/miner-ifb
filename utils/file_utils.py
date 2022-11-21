@@ -4,7 +4,7 @@ import requests
 from PIL import Image
 
 
-class FilesUtils:
+class FileUtils:
 
     def __init__(self, file_path):
         self.file_path = file_path
